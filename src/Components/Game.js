@@ -27,13 +27,31 @@ class Game extends Component {
             if (i < 3) {
                 // Initialize player 1's pieces
                 for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    pieces[index] = { id: index, player: 1, isKing: false, isSelected: false, xPosition: i, yPosition: j};
+                    pieces[index] = { 
+                        id: index, 
+                        player: 1, 
+                        isKing: false, 
+                        isSelected: false, 
+                        xPos: i, 
+                        yPos: j,
+                        dragStart: null,
+                        dragEnd: null
+                    };
                     index++;
                 }
             } else if (i >= 5) {
                 // Initialize player 2's pieces
                 for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    pieces[index] = { id: index, player: 2, isKing: false, isSelected: false, xPosition: i, yPosition: j};
+                    pieces[index] = { 
+                        id: index, 
+                        player: 2, 
+                        isKing: false, 
+                        isSelected: false, 
+                        xPos: i, 
+                        yPos: j,
+                        dragStart: null,
+                        dragEnd: null
+                    };
                     index++;
                 }
             }

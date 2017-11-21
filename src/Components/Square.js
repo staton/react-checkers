@@ -16,7 +16,9 @@ class Square extends Component {
         return (
             <button className={'Square ' + this.props.playable}>
                 {
-                    this.state.piece == null ? null : <GamePiece piece={this.state.piece}/>
+                    this.state.piece == null 
+                        ? null 
+                        : <GamePiece piece={this.state.piece}/>
                 }
             </button>);
     }
