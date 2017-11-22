@@ -14,7 +14,7 @@ class Square extends Component {
     render() {
         return (
             <button 
-                onDragOver={this.handleDragEnter.bind(this)}
+                onDragEnter={this.handleDragEnter.bind(this)}
                 onDragLeave={this.handleDragLeave.bind(this)}
                 className={'Square ' + this.state.squareModel.playable}>
                 {
@@ -26,6 +26,7 @@ class Square extends Component {
     }
 
     handleDragEnter(event) {
+        event.preventDefault();
         this.state.squareModel.dragEnter(this.state.squareModel.id);
     }
 
