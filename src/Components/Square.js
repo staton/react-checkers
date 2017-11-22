@@ -7,21 +7,36 @@ class Square extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            piece: props.piece
+            squareModel: props.squareModel
         }
     };
 
     render() {
-        console.log(this.state.piece);
         return (
-            <button className={'Square ' + this.props.playable}>
+            <button 
+                onDragOver={this.handleDragEnter.bind(this)}
+                onDragLeave={this.handleDragLeave.bind(this)}
+                className={'Square ' + this.state.squareModel.playable}>
                 {
-                    this.state.piece == null 
+                    this.state.squareModel.gamePieceModel == null 
                         ? null 
-                        : <GamePiece piece={this.state.piece}/>
+                        : <GamePiece piece={this.state.squareModel.gamePieceModel}/>
                 }
             </button>);
     }
+
+    handleDragEnter(event) {
+        this.state.squareModel.dragEnter(this.state.squareModel.id);
+    }
+
+    handleDragLeave(event) {
+        this.state.squareModel.dragLeave(this.state.squareModel.id);
+    }
+
+    handleDragDrop(event) {
+        this.state.squareModel.dragDrop(this.state.squareModel.id);
+    }
+
 }
 
 export default Square;

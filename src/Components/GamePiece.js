@@ -16,7 +16,7 @@ class GamePiece extends Component {
                 onDragEnd={this.handleDragEnd.bind(this)}
                 className={
                 'GamePiece'
-                + ' player-' + (this.state.piece.player == 1 ? 'one' : 'two') 
+                + ' player-' + (this.state.piece.player === 1 ? 'one' : 'two') 
                 + (this.state.piece.isKing ? ' king' : '')
                 + (this.state.piece.isSelected ? ' selected-gamepiece' : '')}>
                 
@@ -27,7 +27,6 @@ class GamePiece extends Component {
      * 
      */
     handleDragStart(e) {
-        console.log(e);
         let id = this.state.piece.id;
         this.state.piece.dragStart(id);
     }
@@ -36,7 +35,6 @@ class GamePiece extends Component {
      * 
      */
     handleDragEnd(e) {
-        console.log(e);
         let id = this.state.piece.id;
         this.state.piece.dragEnd(id);
     }
