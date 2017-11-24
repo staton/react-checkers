@@ -4,41 +4,23 @@ class GamePiece extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            piece: props.piece
-        };
     }
 
     render() {
         return (
-            <div draggable="true"
-                onDragStart={this.handleDragStart.bind(this)}
-                onDragEnd={this.handleDragEnd.bind(this)}
-                className={
-                'GamePiece'
-                + ' player-' + (this.state.piece.player === 1 ? 'one' : 'two') 
-                + (this.state.piece.isKing ? ' king' : '')
-                + (this.state.piece.isSelected ? ' selected-gamepiece' : '')}>
-                
+            <div 
+                draggable="true"
+                className={this.getElementClassName()}
+            >
             </div>);
     }
 
-    /**
-     * 
-     */
-    handleDragStart(e) {
-        let id = this.state.piece.id;
-        this.state.piece.dragStart(id);
+    getElementClassName() {
+        return 'GamePiece'
+            + ' player-' + (this.props.piece.player === 1 ? 'one' : 'two') 
+            + (this.props.piece.isKing ? ' king' : '')
+            + (this.props.piece.isSelected ? ' selected-gamepiece' : '');
     }
-
-    /**
-     * 
-     */
-    handleDragEnd(e) {
-        let id = this.state.piece.id;
-        this.state.piece.dragEnd(id);
-    }
-
 }
 
 export default GamePiece;

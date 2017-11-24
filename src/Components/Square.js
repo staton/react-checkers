@@ -6,36 +6,29 @@ class Square extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            squareModel: props.squareModel
-        }
+        console.log('IsSquarePlayable? : ' + this.props.isPlayable);
     };
 
     render() {
         return (
-            <button 
-                onDragEnter={this.handleDragEnter.bind(this)}
-                onDragLeave={this.handleDragLeave.bind(this)}
-                className={'Square ' + this.state.squareModel.playable}>
+            <button
+                className={this.getElementClassName()}
+            >
                 {
-                    this.state.squareModel.gamePieceModel == null 
-                        ? null 
-                        : <GamePiece piece={this.state.squareModel.gamePieceModel}/>
+                    (this.props.pieceOnSquare == null) 
+                        ? null
+                        : <GamePiece 
+                            piece={this.props.pieceOnSquare}
+                          />
                 }
             </button>);
     }
 
-    handleDragEnter(event) {
-        event.preventDefault();
-        this.state.squareModel.dragEnter(this.state.squareModel.id);
-    }
-
-    handleDragLeave(event) {
-        this.state.squareModel.dragLeave(this.state.squareModel.id);
-    }
-
-    handleDragDrop(event) {
-        this.state.squareModel.dragDrop(this.state.squareModel.id);
+    getElementClassName() {
+        return 'Square' +
+            (this.props.isPlayable
+                ? ' playable-square'
+                : ' non-playable-square');
     }
 
 }

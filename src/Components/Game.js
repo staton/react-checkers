@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
 import Board from './Board';
+import * as Logic from '../GameLogic/Logic';
 
 class Game extends Component {
+
     constructor() {
         super();
-        this.state = {
-            gamePieces: this.initializeGamePieces()
+        this.state = { 
+            pieces: Logic.initializeGamePieces(),
+            isPlayer1sTurn: true
         };
     }
 
@@ -15,49 +18,35 @@ class Game extends Component {
             <div className="Game">
                 <div><h2>Checkers</h2></div>
                 <div>Player 1's turn</div>
-                <Board pieces={this.state.gamePieces}/>
+                <Board 
+                    pieces={this.state.pieces}
+                    onPieceDragStart={this.handlePieceDragStart}
+                    onPieceDragEnd={this.handlePieceDragEnd}
+                    onPieceDragDrop={this.handlePieceDragDrop}
+                    onSquareHoverEnter={this.handleSquareHoverEnter}
+                    onSquareHoverLeave={this.handleSquareHoverLeave}
+                />
             </div>);
     }
 
-    initializeGamePieces() {
-        let pieces = [24];
-        let index = 0;
+    handlePieceDragStart(e) {
+        console.log("Game - HandlePieceDragStart: " + e);
+    }
 
-        for (let i = 0; i < 8; i++) {
-            if (i < 3) {
-                // Initialize player 1's pieces
-                for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    pieces[index] = { 
-                        id: index, 
-                        player: 1, 
-                        isKing: false, 
-                        isSelected: false, 
-                        xPos: i, 
-                        yPos: j,
-                        dragStart: null,
-                        dragEnd: null
-                    };
-                    index++;
-                }
-            } else if (i >= 5) {
-                // Initialize player 2's pieces
-                for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    pieces[index] = { 
-                        id: index, 
-                        player: 2, 
-                        isKing: false, 
-                        isSelected: false, 
-                        xPos: i, 
-                        yPos: j,
-                        dragStart: null,
-                        dragEnd: null
-                    };
-                    index++;
-                }
-            }
-        }
+    handlePieceDragEnd(e) {
+        console.log("Game - HandlePieceDragEnd: " + e);
+    }
 
-        return pieces;
+    handlePieceDragDrop(e) {
+        console.log("Game - HandlePieceDragDrop: " + e);
+    }
+
+    handleSquareHoverEnter(e) {
+        console.log("Game - HandleSquareHoverEnter: " + e);
+    }
+
+    handleSquareHoverLeave(e) {
+        console.log("Game - HandleSquareHoverLeave: " + e);
     }
 
 }

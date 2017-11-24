@@ -3,44 +3,47 @@ import React, { Component } from 'react';
 import Square from './Square';
 
 class Board extends Component {
-    boardRows;
 
+    boardRows;
+    
     constructor(props) {
+
         super(props);
         this.boardRows = Array(8).fill(null);
-        let squareModels = [8];
+        let squares = [8];
         let squareId = 0;
         
         // Set up all 64 squares, but make them null (will be initialized later)
         for (let i = 0; i < 8; i++) {
-            squareModels[i] = [8]; // square models
-            let rowOfSquares = Array(8).fill(null); // square views
+
+            let rowOfSquares = Array(8).fill(null);
+
             for (let j = 0; j < 8; j++) {
-                squareModels[i][j] = {
-                    id: squareId,
-                    xPos: i,
-                    yPos: j,
-                    gamePieceModel: null,
-                    playable: this.determineSquareType(i, j),
-                    dragEnter: this.handleSquareDragEnter,
-                    dragLeave: this.handleSquareDragLeave,
-                    dragDrop: this.handleSquareDragDrop
-                };
-
-                rowOfSquares[j] = <Square key={squareId} squareModel={squareModels[i][j]} />;
-
+                rowOfSquares[j] = 
+                    <Square 
+                        key={squareId} 
+                        id={squareId}
+                        xPos={i}
+                        yPos={j}
+                        isPlayable={this.determineSquareType(i, j)}
+                        canMoveToThisSquare={false}
+                        pieceOnSquare={this.getPieceOnSquare(i, j)}
+                        onPieceDragStart={this.props.onPieceDragStart}
+                        OnPieceDragEnd={this.props.onPieceDragEnd}
+                        onPieceDragDrop={this.props.onPieceDragDrop}
+                        onSquareHoverEnter={this.props.onSquareHoverEnter}
+                        onSquareHoverLeave={this.props.onSquareHoverLeave}
+                    />;
                 squareId++;
             }
 
             this.boardRows[i] = <div key={'row' + i} className="Row">{rowOfSquares}</div>;
         }
 
-        this.state = {
-            squareModels: squareModels,
-            gamePieceModels: props.pieces
-        };
+        for (let i = 0; i < this.props.pieces.length; i++) {
 
-        this.placeGamePieceModels();
+        }
+        //this.placeGamePieceModels();
     }
 
     render() {
@@ -50,9 +53,12 @@ class Board extends Component {
             </div>);
     }
 
-    /**
-     * 
-     */
+    determineSquareType(x, y) {
+        return (y % 2 !== 0)
+            ? (x % 2 === 0)
+            : (x % 2 !== 0);
+    }
+
     placeGamePieceModels() {
         let index = 0;
 
@@ -73,70 +79,19 @@ class Board extends Component {
         }
     }
 
-    /**
-     * 
-     * @param {*} index 
-     * @param {*} x 
-     * @param {*} y 
-     */
-    placePieceOnSquare(index, x, y) {
-        this.state.gamePieceModels[index].dragStart = this.handleGamePieceDragStart;
-        this.state.gamePieceModels[index].dragEnd = this.handleGamePieceDragEnd;
-        this.state.squareModels[x][y].gamePieceModel = this.state.gamePieceModels[index];
-    }
+    getPieceOnSquare(x, y) {
+        for (let i = 0; i < this.props.pieces.length; i++) {
+            let pieceXPos = this.props.pieces[i].xPos;
+            let pieceYPos = this.props.pieces[i].yPos;
 
-    /**
-     * 
-     * @param {*} x 
-     * @param {*} y 
-     */
-    determineSquareType(x, y) {
-        if (y & 2 !== 0) {
-            return (x % 2 === 0) ? 'playable-square' : 'non-playable-square';
-        } else {
-            return (x % 2 === 0) ? 'non-playable-square' : 'playable-square';
+            if (x == pieceXPos && y == pieceYPos)
+            {
+                return this.props.pieces[i];
+            }
         }
+        return null;
     }
 
-    /**
-     * 
-     * @param {*} id 
-     */
-    handleGamePieceDragStart(id) {
-        console.log("Board.handleGamePieceDragStart called! id: " + id)
-    }
-
-    /**
-     * 
-     * @param {*} id 
-     */
-    handleGamePieceDragEnd(id) {
-        console.log("Board.handleGamePieceDragEnd called! id: " + id)
-    }
-
-    /**
-     * 
-     * @param {*} id 
-     */
-    handleSquareDragEnter(id) {
-        console.log("Board.handleSquareDragEnter called! id: " + id);
-    }
-
-    /**
-     * 
-     * @param {*} id 
-     */
-    handleSquareDragLeave(id) {
-        console.log("Board.handleSquareDragLeave called! id: " + id);
-    }
-
-    /**
-     * 
-     * @param {*} id 
-     */
-    handleSquareDragDrop(id) {
-        console.log("Board.handleSquareDragDrop called! id: " + id);
-    }
 }
 
 export default Board;
