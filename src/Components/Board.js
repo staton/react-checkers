@@ -29,10 +29,11 @@ class Board extends Component {
                         canMoveToThisSquare={false}
                         pieceOnSquare={this.getPieceOnSquare(i, j)}
                         onPieceDragStart={this.props.onPieceDragStart}
-                        OnPieceDragEnd={this.props.onPieceDragEnd}
-                        onPieceDragDrop={this.props.onPieceDragDrop}
-                        onSquareHoverEnter={this.props.onSquareHoverEnter}
-                        onSquareHoverLeave={this.props.onSquareHoverLeave}
+                        onPieceDragEnd={this.props.onPieceDragEnd}
+                        onSquareDrop={this.props.onSquareDrop}
+                        onSquareDragEnter={this.props.onSquareDragEnter}
+                        onSquareDragOver={this.props.onSquareDragOver}
+                        onSquareDragLeave={this.props.onSquareDragLeave}
                     />;
                 squareId++;
             }
