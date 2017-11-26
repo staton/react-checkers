@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import Board from './Board';
 import * as Logic from '../GameLogic/Logic';
 
-class Game extends Component {
+const _ = require('underscore');
 
+class Game extends Component {
+    
     constructor() {
         super();
         this.state = { 
@@ -20,12 +22,12 @@ class Game extends Component {
                 <div>Player 1's turn</div>
                 <Board 
                     pieces={this.state.pieces}
-                    onPieceDragStart={this.handlePieceDragStart}
-                    onPieceDragEnd={this.handlePieceDragEnd}
-                    onSquareDrop={this.handleSquareDrop}
-                    onSquareDragEnter={this.handleSquareDragEnter}
-                    onSquareDragOver={this.handleSquareDragOver}
-                    onSquareDragLeave={this.handleSquareDragLeave}
+                    onPieceDragStart={this.handlePieceDragStart.bind(this)}
+                    onPieceDragEnd={this.handlePieceDragEnd.bind(this)}
+                    onSquareDrop={this.handleSquareDrop.bind(this)}
+                    onSquareDragEnter={this.handleSquareDragEnter.bind(this)}
+                    onSquareDragOver={this.handleSquareDragOver.bind(this)}
+                    onSquareDragLeave={this.handleSquareDragLeave.bind(this)}
                 />
             </div>);
     }
@@ -79,20 +81,58 @@ class Game extends Component {
     }
 
     handlePieceDragStart(e, args) {
-        let pieceId = e.dataTransfer.getData('text/plain')
-        console.log("Game - handlePieceDragStart: " + args);
+        console.log("DRAG START: " + args);
+        let pieces = this.state.pieces.slice();
+        let piece = _.findWhere(pieces, { id: args });
+
+        if (piece !== undefined) {
+            piece.isSelected = true;
+            // highlight squares for possible moves
+            this.setState({ pieces: pieces });
+        } else {
+            console.warn("Game.handleDragStart - PIECE IS UNDEFINED! pieceId: " + args);
+        }
     }
 
     handlePieceDragEnd(e, args) {
-        console.log("Game - handlePieceDragEnd: " + args);
+        /*
+        console.log("DRAG END: " + args);
+        let pieces = this.state.pieces.slice();
+        let piece = _.findWhere(pieces, { id: args });
+
+        if (piece !== undefined) {
+            piece.isSelected = false;
+            this.setState({ pieces: pieces });
+        } else {
+            console.warn("Game.handleDragEnd - PIECE IS UNDEFINED! pieceId: " + args);
+        }
+        */
     }
 
     handleSquareDrop(e, args) {
         console.log("Game - handleSquareDrop: " + args.xPos + ", " + args.yPos);
+
+        let pieces = this.state.pieces.slice();
+        let piece = _.findWhere(pieces, { isSelected: true });
+
+        if (piece !== undefined) {
+            // if the drop was valid, then place the piece & change the player's turn (if no jump).
+            console.log("DROP: " + piece.id);
+            piece.xPos = args.xPos;
+            piece.yPos = args.yPos;
+            piece.isSelected = false;
+            // unhighlight squares
+            this.setState({ pieces: pieces });
+        } else {
+            console.warn("Game.handleDragDrop - PIECE IS UNDEFINED!");
+        }
     }
 
     handleSquareDragEnter(e, args) {
         console.log("Game - handleSquareDragEnter: " + args.xPos + ", " + args.yPos);
+        // check to see if this square is a square that is after a 'jump'. if so, highlight any
+        // second jumps.
+        // else if the squre is the original square, show the original possible moves.
     }
 
     handleSquareDragOver(e) {

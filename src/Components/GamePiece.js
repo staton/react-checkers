@@ -25,7 +25,6 @@ class GamePiece extends Component {
     }
 
     handlePieceDragStart(e) {
-        e.dataTransfer.setData('text/plain', this.props.piece.id);
         this.props.onPieceDragStart(e, this.props.piece.id);
     }
 

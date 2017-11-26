@@ -4,16 +4,23 @@ import Square from './Square';
 
 class Board extends Component {
 
-    boardRows;
     
     constructor(props) {
-
         super(props);
-        this.boardRows = Array(8).fill(null);
+    }
+
+    render() {
+        return (
+            <div className="Board">
+                {this.createBoardRows()}
+            </div>);
+    }
+
+    createBoardRows() {
+        let boardRows = Array(8).fill(null);
         let squares = [8];
         let squareId = 0;
         
-        // Set up all 64 squares, but make them null (will be initialized later)
         for (let i = 0; i < 8; i++) {
 
             let rowOfSquares = Array(8).fill(null);
@@ -38,20 +45,10 @@ class Board extends Component {
                 squareId++;
             }
 
-            this.boardRows[i] = <div key={'row' + i} className="Row">{rowOfSquares}</div>;
+            boardRows[i] = <div key={'row' + i} className="Row">{rowOfSquares}</div>;
         }
 
-        for (let i = 0; i < this.props.pieces.length; i++) {
-
-        }
-        //this.placeGamePieceModels();
-    }
-
-    render() {
-        return (
-            <div className="Board">
-                {this.boardRows}
-            </div>);
+        return boardRows;
     }
 
     determineSquareType(x, y) {
