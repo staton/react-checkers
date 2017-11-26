@@ -130,6 +130,8 @@ class Game extends Component {
 
     handleSquareDragEnter(e, args) {
         console.log("Game - handleSquareDragEnter: " + args.xPos + ", " + args.yPos);
+        let possibleMoves = Logic.getPossibleMoves(
+            _.findWhere(this.state.pieces, { isSelected: true }), this.state.pieces);
         // check to see if this square is a square that is after a 'jump'. if so, highlight any
         // second jumps.
         // else if the squre is the original square, show the original possible moves.
