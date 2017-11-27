@@ -14,6 +14,7 @@ class GamePiece extends Component {
                 onDragStart={this.handlePieceDragStart.bind(this)}
                 onDragEnd={this.handlePieceDragEnd.bind(this)}
             >
+                <div className="piece-overlay"></div>
             </div>);
     }
 
