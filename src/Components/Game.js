@@ -18,8 +18,9 @@ class Game extends Component {
     render() {
         return (
             <div className="Game">
-                <div><h2>Checkers</h2></div>
-                <div>Player 1's turn</div>
+                {
+                    this.renderPlayerTurnText()
+                }
                 <Board 
                     pieces={this.state.pieces}
                     onPieceDragStart={this.handlePieceDragStart.bind(this)}
@@ -30,6 +31,15 @@ class Game extends Component {
                     onSquareDragLeave={this.handleSquareDragLeave.bind(this)}
                 />
             </div>);
+    }
+
+    renderPlayerTurnText() {
+        
+        if (this.state.isPlayer1sTurn) {
+            return (<div className="player-one-turn-text"><h2>Player 1's turn</h2></div>);
+        } else {
+            return (<div className="player-two-turn-text"><h2>Player 2's turn</h2></div>);
+        }
     }
 
     resetGame() {
@@ -122,7 +132,7 @@ class Game extends Component {
             piece.yPos = args.yPos;
             piece.isSelected = false;
             // unhighlight squares
-            this.setState({ pieces: pieces });
+            this.setState({ pieces: pieces, isPlayer1sTurn: !this.state.isPlayer1sTurn });
         } else {
             console.warn("Game.handleDragDrop - PIECE IS UNDEFINED!");
         }
