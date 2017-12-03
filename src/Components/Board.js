@@ -35,6 +35,7 @@ class Board extends Component {
                         isPlayable={this.determineSquareType(i, j)}
                         canMoveToThisSquare={false}
                         pieceOnSquare={this.getPieceOnSquare(i, j)}
+                        isPlayer1sTurn={this.props.isPlayer1sTurn}
                         onPieceDragStart={this.props.onPieceDragStart}
                         onPieceDragEnd={this.props.onPieceDragEnd}
                         onSquareDrop={this.props.onSquareDrop}

@@ -31,8 +31,10 @@ class App extends Component {
     render() {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
+                <div>
                     <AppBar title="Checkers"/>
                     <Game />
+                </div>
             </MuiThemeProvider>);
     }
 }

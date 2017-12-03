@@ -14,24 +14,17 @@ export function checkIfShouldKing(selectedPiece) {
             || (selectedPiece.player === 2 && selectedPiece.xPos === 0)));
 }
 
-export function getPossibleMoves(selectedPiece, pieces) {
+export function getPossibleMoves(player, x, y, isKing, pieces) {
     // let the board worry about the highlighting.
     // Just return the coordinates of each possible move.
     let possibleMoves = [];
 
-    if (selectedPiece === undefined) {
-        console.warn("Logic - getPossibleMoves - SELECTED PIECE IS UNDEFINED!");
-        return possibleMoves;
-    } else if (pieces === undefined || pieces.length === 0) {
+    if (pieces === undefined || pieces.length === 0) {
         console.warn("Logic - getPossibleMoves - NO PIECES!");
         return possibleMoves;
     }
 
-    let x = selectedPiece.xPos;
-    let y = selectedPiece.yPos;
-    let isKing = selectedPiece.isKing;
-
-    if (selectedPiece.player == 1) {
+    if (player == 1) {
         // red piece
 
         if (isKing) {
@@ -66,7 +59,7 @@ export function getPossibleMoves(selectedPiece, pieces) {
             }
         }
 
-    } else if (selectedPiece.player == 2) {
+    } else if (player == 2) {
         // black piece
 
         if (isKing) {

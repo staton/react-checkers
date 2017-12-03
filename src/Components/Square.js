@@ -26,6 +26,7 @@ class Square extends Component {
                         ? null
                         : <GamePiece 
                             piece={this.props.pieceOnSquare}
+                            isPlayer1sTurn={this.props.isPlayer1sTurn}
                             onPieceDragStart={this.props.onPieceDragStart}
                             onPieceDragEnd={this.props.onPieceDragEnd}
                           />

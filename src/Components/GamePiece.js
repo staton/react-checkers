@@ -9,13 +9,18 @@ class GamePiece extends Component {
     render() {
         return (
             <div 
-                draggable="true"
+                draggable={this.isPieceDraggable()}
                 className={this.getElementClassName()}
                 onDragStart={this.handlePieceDragStart.bind(this)}
                 onDragEnd={this.handlePieceDragEnd.bind(this)}
             >
                 <div className="piece-overlay"></div>
             </div>);
+    }
+
+    isPieceDraggable() {
+        return ((this.props.isPlayer1sTurn && this.props.piece.player == 1)
+            || (!this.props.isPlayer1sTurn && this.props.piece.player == 2));
     }
 
     getElementClassName() {
