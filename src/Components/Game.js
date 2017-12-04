@@ -109,7 +109,8 @@ class Game extends Component {
                 piece.xPos, 
                 piece.yPos, 
                 piece.isKing, 
-                pieces);
+                pieces,
+                false);
             this.movesThisTurn.push({ xPos: piece.xPos, yPos: piece.yPos });
             this.setState({ pieces: pieces });
         } else {
@@ -131,11 +132,17 @@ class Game extends Component {
             piece.isSelected = false;
            
             // Check if the piece was placed on a valid square (a possible move)
-            if (_.findWhere(this.possibleMoves, { xPos: args.xPos, yPos: args.yPos }) !== undefined) {
+            if (this.movesThisTurn.length > 1
+                && _.findWhere(this.possibleMoves, { xPos: args.xPos, yPos: args.yPos }) !== undefined) {
                 // The piece was placed on a valid square. So update the piece's X and Y values, 
                 // and remove any jumped pieces.
                 piece.xPos = args.xPos;
                 piece.yPos = args.yPos;
+                
+                if (!piece.isKing) {
+                    piece.isKing = Logic.checkIfShouldKing(piece);
+                }
+                
                 pieces = this.removePieces(pieces);
                 this.setState({ pieces: pieces, isPlayer1sTurn: !this.state.isPlayer1sTurn });
             }
@@ -156,7 +163,7 @@ class Game extends Component {
             { xPos: args.xPos, yPos: args.yPos }) !== undefined);
 
         if (isPossibleMove) {
-
+            console.log("DRAG ENTER: isPossibleMove = true");
             // The user hovered over a square that is a possible move.
             // So update the list of possible moves, in the event that
             // the user can double jump.
@@ -165,17 +172,22 @@ class Game extends Component {
                 args.xPos, 
                 args.yPos, 
                 piece.isKing, 
-                this.state.pieces);
+                this.state.pieces,
+                true);
 
             // Also, add the current square to the list, since in case the
             // user wants to stop on this square.
             this.possibleMoves.push({ xPos: args.xPos, yPos: args.yPos});
 
-            // Update the list of moves made this turn.
-            this.movesThisTurn.push({ xPos: args.xPos, yPos: args.yPos });
+            let latestMove = this.movesThisTurn[this.movesThisTurn.length - 1];
+
+            if (latestMove.xPos !== args.xPos || latestMove.yPos !== args.yPos) {
+                // Update the list of moves made this turn.
+                this.movesThisTurn.push({ xPos: args.xPos, yPos: args.yPos });
+            }
             
         } else if (this.movesThisTurn.length > 1) {
-            
+            console.log("DRAG ENTER - isPreviousSquare = true");
             var prevSquare = this.movesThisTurn[this.movesThisTurn.length - 2];
 
             if (prevSquare.xPos === args.xPos && prevSquare.yPos === args.yPos) {
@@ -187,7 +199,8 @@ class Game extends Component {
                     args.xPos, 
                     args.yPos, 
                     piece.isKing, 
-                    this.state.pieces);
+                    this.state.pieces,
+                    false);
 
                 // Also, add the current square to the list, since in case the
                 // user wants to stop on this square.
