@@ -32,7 +32,12 @@ body {
     transform: rotate3d(1, 0, 0, 20deg);
 }
 
+.Row {
+    /*display: table-row;*/
+}
+
 .Square {
+    display: table-cell;
     width: 5em;
     height: 5em;
     margin: 0 .4em .4em 0;
@@ -47,6 +52,7 @@ body {
     -webkit-box-shadow: 0 0.2em 0.4em -0.2em rgb(0, 0, 0);
     -moz-box-shadow: 0 0.2em 0.4em -0.2em rgb(0, 0, 0);
     box-shadow: 0 0.2em 0.4em -0.2em rgb(0, 0, 0);
+    /*margin: 0 auto;*/
 }
 
 .piece-overlay {

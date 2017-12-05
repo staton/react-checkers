@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import {greenA700, white, grey500} from 'material-ui/styles/colors';
 
 import Board from './Board';
 import * as Logic from '../GameLogic/Logic';
@@ -14,11 +18,28 @@ class Game extends Component {
         super();
         this.state = { 
             pieces: this.initializeGamePieces(),
-            isPlayer1sTurn: true
+            isPlayer1sTurn: true,
+            isNewGameDialogOpen: false
         };
     }
 
     render() {
+        const actions = [
+            <FlatButton
+              label="Cancel"
+              backgroundColor={white}
+              labelColor={grey500}
+              style="margin:1em;"
+              onClick={this.handleNewGameDialogCancel.bind(this)}
+            />,
+            <RaisedButton 
+                label="New Game" 
+                backgroundColor={greenA700}
+                labelColor={white}
+                style="margin:1em;"
+                onClick={this.handleStartNewGame.bind(this)} />,
+          ];
+
         return (
             <div className="Game">
                 {
@@ -34,6 +55,25 @@ class Game extends Component {
                     onSquareDragOver={this.handleSquareDragOver.bind(this)}
                     onSquareDragLeave={this.handleSquareDragLeave.bind(this)}
                 />
+                <br /><br />
+                <div>
+                    <RaisedButton 
+                        label="New Game" 
+                        backgroundColor={greenA700}
+                        labelColor={white}
+                        style="margin:1em;"
+                        onClick={this.handleNewGameDialogOpen.bind(this)} />
+                </div>
+                <div>
+                    <Dialog
+                        actions={actions}
+                        modal={false}
+                        open={this.state.isNewGameDialogOpen}
+                        onRequestClose={this.handleNewGameDialogClose.bind(this)}
+                    >
+                    Start a new game?
+                    </Dialog>
+                </div>
             </div>);
     }
 
@@ -44,13 +84,6 @@ class Game extends Component {
         } else {
             return (<div className="player-two-turn-text"><h2>Player 2's turn</h2></div>);
         }
-    }
-
-    resetGame() {
-        this.setState({
-            pieces: this.initializeGamePieces(),
-            isPlayer1sTurn: true
-        });
     }
 
     initializeGamePieces() {
@@ -254,6 +287,26 @@ class Game extends Component {
         }
 
         return pieces;
+    }
+
+    handleNewGameDialogOpen(e) {
+        this.setState({isNewGameDialogOpen: true});
+    }
+    
+    handleNewGameDialogClose(e) {
+        this.setState({isNewGameDialogOpen: false});
+    }
+
+    handleNewGameDialogCancel(e) {
+        this.setState({isNewGameDialogOpen: false});
+    }
+
+    handleStartNewGame(e) {
+        this.setState({
+            isNewGameDialogOpen: false,
+            pieces: this.initializeGamePieces(),
+            isPlayer1sTurn: true
+        });
     }
 
 }
