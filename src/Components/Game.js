@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import {greenA700, white, grey500} from 'material-ui/styles/colors';
-
+import {greenA700, white} from 'material-ui/styles/colors';
 import Board from './Board';
+import NewGameDialog from './NewGameDialog';
 import * as GamePieceFactory from '../GamePieceFactory';
 import * as Logic from '../GameLogic/Logic';
 
@@ -25,22 +23,6 @@ class Game extends Component {
     }
 
     render() {
-        const actions = [
-            <FlatButton
-              label="Cancel"
-              backgroundColor={white}
-              labelColor={grey500}
-              style={{margin: '1em'}}
-              onClick={this.handleNewGameDialogCancel.bind(this)}
-            />,
-            <RaisedButton 
-                label="New Game" 
-                backgroundColor={greenA700}
-                labelColor={white}
-                style={{margin: '1em'}}
-                onClick={this.handleStartNewGame.bind(this)} />,
-          ];
-
         return (
             <div className="Game">
                 <div id="game-options-container">
@@ -68,16 +50,10 @@ class Game extends Component {
                     onSquareDragOver={this.handleSquareDragOver.bind(this)}
                     onSquareDragLeave={this.handleSquareDragLeave.bind(this)}
                 />
-                <div>
-                    <Dialog
-                        actions={actions}
-                        modal={false}
-                        open={this.state.isNewGameDialogOpen}
-                        onRequestClose={this.handleNewGameDialogClose.bind(this)}
-                    >
-                    Start a new game?
-                    </Dialog>
-                </div>
+                <NewGameDialog
+                    isNewGameDialogOpen={this.state.isNewGameDialogOpen}
+                    onNewGameDialogClose={this.handleNewGameDialogClose.bind(this)}
+                    onStartNewGame={this.handleStartNewGame.bind(this)} />
             </div>);
     }
 
@@ -299,20 +275,16 @@ class Game extends Component {
     handleNewGameDialogOpen(e) {
         this.setState({isNewGameDialogOpen: true});
     }
-    
-    handleNewGameDialogClose(e) {
-        this.setState({isNewGameDialogOpen: false});
-    }
 
-    handleNewGameDialogCancel(e) {
+    handleNewGameDialogClose(e) {
         this.setState({isNewGameDialogOpen: false});
     }
 
     handleStartNewGame(e) {
         this.setState({
-            isNewGameDialogOpen: false,
             pieces: this.initializeGamePieces(),
-            isPlayer1sTurn: true
+            isPlayer1sTurn: true,
+            isNewGameDialogOpen: false
         });
     }
 

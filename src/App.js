@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
-import './App.css';
-
-import Game from './Components/Game';
-
-
 import {red500, grey50, white} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import typography from 'material-ui/styles/typography';
+import './App.css';
+import Game from './Components/Game';
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -24,7 +20,6 @@ const muiTheme = getMuiTheme({
         titleFontWeight: typography.fontWeightMedium
     }
 });
-
 
 class App extends Component {
     render() {
