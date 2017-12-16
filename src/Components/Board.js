@@ -46,7 +46,7 @@ class Board extends Component {
                 squareId++;
             }
 
-            boardRows[i] = <div key={'row' + i} className="Row">{rowOfSquares}</div>;
+            boardRows[i] = <div key={'row' + i} className="board-row">{rowOfSquares}</div>;
         }
 
         return boardRows;

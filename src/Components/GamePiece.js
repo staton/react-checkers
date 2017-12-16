@@ -14,7 +14,17 @@ class GamePiece extends Component {
                 onDragStart={this.handlePieceDragStart.bind(this)}
                 onDragEnd={this.handlePieceDragEnd.bind(this)}
             >
-                <div className="piece-overlay"></div>
+                <div 
+                    className="piece-overlay"
+                    style={{display: 'table'}}
+                >
+                    <div
+                        className="king"
+                        style={this.getKingStyle()}
+                    >
+                        <span>KING</span>
+                    </div>
+                </div>
             </div>);
     }
 
@@ -28,6 +38,15 @@ class GamePiece extends Component {
             + ' player-' + (this.props.piece.player === 1 ? 'one' : 'two') 
             + (this.props.piece.isKing ? ' king' : '')
             + (this.props.piece.isSelected ? ' selected-gamepiece' : '');
+    }
+
+    getKingStyle() {
+        return {
+            display: 'table-cell',
+            fontWeight: 'bold',
+            color: 'rgba(255, 255, 255, .5)',
+            visibility: (this.props.piece.isKing ? 'visible' : 'hidden')
+        };
     }
 
     handlePieceDragStart(e) {

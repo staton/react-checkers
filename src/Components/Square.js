@@ -14,7 +14,7 @@ class Square extends Component {
 
     render() {
         return (
-            <button
+            <div
                 className={this.getElementClassName()}
                 onDrop={this.handleSquareDrop.bind(this)}
                 onDragEnter={this.handleSquareDragEnter.bind(this)}
@@ -31,7 +31,7 @@ class Square extends Component {
                             onPieceDragEnd={this.props.onPieceDragEnd}
                           />
                 }
-            </button>);
+            </div>);
     }
 
     getElementClassName() {

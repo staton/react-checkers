@@ -42,9 +42,21 @@ class Game extends Component {
 
         return (
             <div className="Game">
-                {
-                    this.renderPlayerTurnText()
-                }
+                <div id="game-options-container">
+                    <div className="game-options-container-row new-game-button-container">
+                        {
+                            this.renderPlayerTurnText()
+                        }
+                        <div className="game-options-container-cell">
+                            <RaisedButton 
+                                className="new-game-button"
+                                label="New Game" 
+                                backgroundColor={greenA700}
+                                labelColor={white}
+                                onClick={this.handleNewGameDialogOpen.bind(this)} />
+                        </div>
+                    </div>
+                </div>
                 <Board 
                     pieces={this.state.pieces}
                     isPlayer1sTurn={this.state.isPlayer1sTurn}
@@ -55,15 +67,6 @@ class Game extends Component {
                     onSquareDragOver={this.handleSquareDragOver.bind(this)}
                     onSquareDragLeave={this.handleSquareDragLeave.bind(this)}
                 />
-                <br /><br />
-                <div>
-                    <RaisedButton 
-                        label="New Game" 
-                        backgroundColor={greenA700}
-                        labelColor={white}
-                        style="margin:1em;"
-                        onClick={this.handleNewGameDialogOpen.bind(this)} />
-                </div>
                 <div>
                     <Dialog
                         actions={actions}
@@ -80,9 +83,13 @@ class Game extends Component {
     renderPlayerTurnText() {
         
         if (this.state.isPlayer1sTurn) {
-            return (<div className="player-one-turn-text"><h2>Player 1's turn</h2></div>);
+            return (<div className="player-turn-name game-options-container-cell player-one-turn-text">
+                        <h2>Player 1's turn</h2>
+                    </div>);
         } else {
-            return (<div className="player-two-turn-text"><h2>Player 2's turn</h2></div>);
+            return (<div className=" player-turn-name game-options-container-cell player-two-turn-text">
+                        <h2>Player 2's turn</h2>
+                    </div>);
         }
     }
 

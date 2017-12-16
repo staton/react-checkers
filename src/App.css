@@ -10,13 +10,11 @@ body {
 
 .App {
     margin: 0 auto;
-    /*font-family: Roboto;*/
-    /*font-family: Arial, Helvetica, sans-serif;*/
 }
 
 .Game > h2, .Game > div {
     text-align: center;
-    margin: .5em auto;
+    margin: 0 auto;
 }
 
 .Game {
@@ -26,22 +24,15 @@ body {
 .Board {
     display: table;
     border: .6em solid rgb(51, 51, 51);
-    /*background-color: rgb(224, 210, 13);*/
+    border-spacing: .25em;
     background-color: rgb(75, 30, 20);
-    padding: .4em 0 0 .4em;
     transform: rotate3d(1, 0, 0, 20deg);
-}
-
-.Row {
-    /*display: table-row;*/
 }
 
 .Square {
     display: table-cell;
     width: 5em;
     height: 5em;
-    margin: 0 .4em .4em 0;
-    border: none;
     color: rgb(255, 255, 255);
 }
 
@@ -52,7 +43,13 @@ body {
     -webkit-box-shadow: 0 0.2em 0.4em -0.2em rgb(0, 0, 0);
     -moz-box-shadow: 0 0.2em 0.4em -0.2em rgb(0, 0, 0);
     box-shadow: 0 0.2em 0.4em -0.2em rgb(0, 0, 0);
-    /*margin: 0 auto;*/
+    margin: 0 auto;
+}
+
+.board-row {
+    display: table-row;
+    margin: 0;
+    padding: 0;
 }
 
 .piece-overlay {
@@ -65,12 +62,29 @@ body {
     box-shadow: 0 0.5em 0.4em 0.2em rgba(0, 0, 0, 0.4);
 }
 
+.king {
+    vertical-align: middle;
+}
+
 .player-one {
     background-color: rgb(255, 51, 51);
 }
 
 .player-two {
     background-color: rgb(76, 76, 76);
+}
+
+#game-options-container {
+    display: table;
+}
+
+.game-options-container-row {
+    display: table-row;
+}
+
+.game-options-container-cell {
+    display: table-cell;
+    padding: .5em 8em 0 8em;
 }
 
 .player-one-turn-text {
@@ -82,11 +96,9 @@ body {
 }
 
 .playable-square {
-    /*background-color: rgb(25, 25, 25);*/
     background-color: rgb(175, 75, 53);
 }
 
 .non-playable-square {
-    /*background-color: rgb(201, 51, 51);*/
     background-color: rgb(245, 212, 142);
 }

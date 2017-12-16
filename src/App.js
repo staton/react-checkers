@@ -32,7 +32,6 @@ class App extends Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
-                    <AppBar title="Checkers"/>
                     <Game />
                 </div>
             </MuiThemeProvider>);
