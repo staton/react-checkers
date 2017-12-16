@@ -34,6 +34,9 @@ class Square extends Component {
             </div>);
     }
 
+    /**
+     * Gets the class name for the square, determined by whether or not the square is playable.
+     */
     getElementClassName() {
         return 'Square' +
             (this.props.isPlayable

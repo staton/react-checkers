@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 
 class GamePiece extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
+        console.log("Render game piece!");
         return (
             <div 
                 draggable={this.isPieceDraggable()}
@@ -14,9 +11,8 @@ class GamePiece extends Component {
                 onDragStart={this.handlePieceDragStart.bind(this)}
                 onDragEnd={this.handlePieceDragEnd.bind(this)}
             >
-                <div 
+                <div
                     className="piece-overlay"
-                    style={{display: 'table'}}
                 >
                     <div
                         className="king"
@@ -28,23 +24,29 @@ class GamePiece extends Component {
             </div>);
     }
 
+    /**
+     * Determines whether or not the piece is draggable, based on which player's turn it is.
+     */
     isPieceDraggable() {
-        return ((this.props.isPlayer1sTurn && this.props.piece.player == 1)
-            || (!this.props.isPlayer1sTurn && this.props.piece.player == 2));
+        return ((this.props.isPlayer1sTurn && this.props.piece.player === 1)
+            || (!this.props.isPlayer1sTurn && this.props.piece.player !== 1));
     }
 
+    /**
+     * Gets the class name for this piece.
+     */
     getElementClassName() {
         return 'GamePiece'
-            + ' player-' + (this.props.piece.player === 1 ? 'one' : 'two') 
-            + (this.props.piece.isKing ? ' king' : '')
+            + ' player-' + (this.props.piece.player === 1 ? 'one' : 'two')
             + (this.props.piece.isSelected ? ' selected-gamepiece' : '');
     }
 
+    /**
+     * Gets the style that will determine if the "KING" icon is visible or not,
+     * depending on whether or not this piece has been kinged.
+     */
     getKingStyle() {
         return {
-            display: 'table-cell',
-            fontWeight: 'bold',
-            color: 'rgba(255, 255, 255, .5)',
             visibility: (this.props.piece.isKing ? 'visible' : 'hidden')
         };
     }

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
 
 import './App.css';
 
 import Game from './Components/Game';
 
 
-import {red500, red700, grey50, white} from 'material-ui/styles/colors';
+import {red500, grey50, white} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import typography from 'material-ui/styles/typography';
 

@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {greenA700, white, grey500} from 'material-ui/styles/colors';
 
 import Board from './Board';
+import * as GamePieceFactory from '../GamePieceFactory';
 import * as Logic from '../GameLogic/Logic';
 
 const _ = require('underscore');
@@ -29,14 +30,14 @@ class Game extends Component {
               label="Cancel"
               backgroundColor={white}
               labelColor={grey500}
-              style="margin:1em;"
+              style={{margin: '1em'}}
               onClick={this.handleNewGameDialogCancel.bind(this)}
             />,
             <RaisedButton 
                 label="New Game" 
                 backgroundColor={greenA700}
                 labelColor={white}
-                style="margin:1em;"
+                style={{margin: '1em'}}
                 onClick={this.handleStartNewGame.bind(this)} />,
           ];
 
@@ -80,6 +81,9 @@ class Game extends Component {
             </div>);
     }
 
+    /**
+     * Gets the text that is displayed above the board, indicating which player's turn it currently is.
+     */
     renderPlayerTurnText() {
         
         if (this.state.isPlayer1sTurn) {
@@ -93,6 +97,9 @@ class Game extends Component {
         }
     }
 
+    /**
+     * Initializes the game pieces on the board in their starting positions.
+     */
     initializeGamePieces() {
         let pieces = [24];
         let index = 0;
@@ -101,31 +108,13 @@ class Game extends Component {
             if (i < 3) {
                 // Initialize player 1's pieces
                 for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    pieces[index] = { 
-                        id: index, 
-                        player: 1, 
-                        isKing: false, 
-                        isSelected: false, 
-                        xPos: i, 
-                        yPos: j,
-                        dragStart: null,
-                        dragEnd: null
-                    };
+                    pieces[index] = GamePieceFactory.Create(index, 1, i, j);
                     index++;
                 }
             } else if (i >= 5) {
                 // Initialize player 2's pieces
                 for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    pieces[index] = { 
-                        id: index, 
-                        player: 2, 
-                        isKing: false, 
-                        isSelected: false, 
-                        xPos: i, 
-                        yPos: j,
-                        dragStart: null,
-                        dragEnd: null
-                    };
+                    pieces[index] = GamePieceFactory.Create(index, 2, i, j);
                     index++;
                 }
             }
@@ -134,8 +123,13 @@ class Game extends Component {
         return pieces;
     }
 
+    /**
+     * Called when a piece starts to be dragged.
+     * @param {*} e 
+     * @param {*} args The id of the piece that is being dragged.
+     */
     handlePieceDragStart(e, args) {
-        console.log("DRAG START: " + args);
+        console.log("Game - handlePieceDragStart: " + args);
 
         // Get the piece using the piece id, given by 'args'.
         let pieces = this.state.pieces.slice();
@@ -144,13 +138,7 @@ class Game extends Component {
         // set the piece's isSelected property to true
         if (piece !== undefined) {
             piece.isSelected = true;
-            this.possibleMoves = Logic.getPossibleMoves(
-                piece.player, 
-                piece.xPos, 
-                piece.yPos, 
-                piece.isKing, 
-                pieces,
-                false);
+            this.possibleMoves = Logic.getPossibleMoves(piece, pieces, false);
             this.movesThisTurn.push({ xPos: piece.xPos, yPos: piece.yPos });
             this.setState({ pieces: pieces });
         } else {
@@ -158,11 +146,13 @@ class Game extends Component {
         }
     }
 
-    handlePieceDragEnd(e, args) {
-        
-    }
-
+    /**
+     * Called when a piece is dropped on a square.
+     * @param {*} e 
+     * @param {*} args The x and y coordinates of the square the piece was dropped on.
+     */
     handleSquareDrop(e, args) {
+        console.log("Game - handleSquareDrop: " + args.xPos + ", " + args.yPos);
 
         let pieces = this.state.pieces.slice();
         let piece = _.findWhere(pieces, { isSelected: true });
@@ -194,8 +184,13 @@ class Game extends Component {
         this.movesThisTurn = [];
     }
 
+    /**
+     * Called when the user drags a piece over a square, but has not yet dropped the piece.
+     * @param {*} e 
+     * @param {*} args The x and y coordinates of the square the piece is hovering over.
+     */
     handleSquareDragEnter(e, args) {
-        //console.log("Game - handleSquareDragEnter: " + args.xPos + ", " + args.yPos);
+        console.log("Game - handleSquareDragEnter: " + args.xPos + ", " + args.yPos);
 
         let piece = _.findWhere(this.state.pieces, { isSelected: true });
         let isPossibleMove = (_.findWhere(
@@ -257,14 +252,19 @@ class Game extends Component {
         }
     }
 
-    handleSquareDragOver(e) {
+    handlePieceDragEnd(e, args) {
+    }
 
+    handleSquareDragOver(e) {
     }
 
     handleSquareDragLeave(e, args) {
-        
     }
 
+    /**
+     * Returns the pieces, if any, that need to be removed after a player ends their turn.
+     * @param {*} pieces 
+     */
     removePieces(pieces) {
 
         if (this.movesThisTurn.length > 1) {

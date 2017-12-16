@@ -53,17 +53,24 @@ body {
 }
 
 .piece-overlay {
+    display: table;
     width: 4em;
     height: 3.6em;
     border-radius: 2em;
-    /*background-color: rgba(255, 255, 255, 0.25);*/
     -webkit-box-shadow: 0 0.5em 0.4em 0.2em rgba(0, 0, 0, 0.4);
     -moz-box-shadow: 0 0.5em 0.4em 0.2em rgba(0, 0, 0, 0.4);
     box-shadow: 0 0.5em 0.4em 0.2em rgba(0, 0, 0, 0.4);
 }
 
 .king {
+    display: table-cell;
     vertical-align: middle;
+    font-weight: bold;
+    color: rgba(255, 255, 255, .5);
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */ 
 }
 
 .player-one {

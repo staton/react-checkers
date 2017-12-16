@@ -4,11 +4,6 @@ import Square from './Square';
 
 class Board extends Component {
 
-    
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="Board">
@@ -16,9 +11,11 @@ class Board extends Component {
             </div>);
     }
 
+    /**
+     * Creates every row of the board.
+     */
     createBoardRows() {
         let boardRows = Array(8).fill(null);
-        let squares = [8];
         let squareId = 0;
         
         for (let i = 0; i < 8; i++) {
@@ -32,7 +29,7 @@ class Board extends Component {
                         id={squareId}
                         xPos={i}
                         yPos={j}
-                        isPlayable={this.determineSquareType(i, j)}
+                        isPlayable={this.determineIfSquareIsPlayable(i, j)}
                         canMoveToThisSquare={false}
                         pieceOnSquare={this.getPieceOnSquare(i, j)}
                         isPlayer1sTurn={this.props.isPlayer1sTurn}
@@ -52,38 +49,28 @@ class Board extends Component {
         return boardRows;
     }
 
-    determineSquareType(x, y) {
+    /**
+     * Determines if the square is a playable square.
+     * @param {*} x 
+     * @param {*} y 
+     */
+    determineIfSquareIsPlayable(x, y) {
         return (y % 2 !== 0)
             ? (x % 2 === 0)
             : (x % 2 !== 0);
     }
 
-    placeGamePieceModels() {
-        let index = 0;
-
-        for (let i = 0; i < 8; i++) {
-            if (i < 3) {
-                // Initialize player 1's pieces on the appropriate squares
-                for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    this.placePieceOnSquare(index, i, j);
-                    index++;
-                }
-            } else if (i >= 5) {
-                // Initialize player 2's pieces on the appropriate squares
-                for (let j = ((i + 1) % 2); j < 8; j+=2) {
-                    this.placePieceOnSquare(index, i, j);
-                    index++;
-                }
-            }
-        }
-    }
-
+    /**
+     * Gets the game piece, if any, that is on this square.
+     * @param {*} x The x-coordinate of the square.
+     * @param {*} y The y-coordinate of the square.
+     */
     getPieceOnSquare(x, y) {
         for (let i = 0; i < this.props.pieces.length; i++) {
             let pieceXPos = this.props.pieces[i].xPos;
             let pieceYPos = this.props.pieces[i].yPos;
 
-            if (x == pieceXPos && y == pieceYPos)
+            if (x === pieceXPos && y === pieceYPos)
             {
                 return this.props.pieces[i];
             }
